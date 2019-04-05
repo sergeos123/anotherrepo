@@ -1,0 +1,119 @@
+Hi ;rep,
+
+Looking at your JQL in the endpoint, you're using this syntax: 
+
+jql=filter%3D36259&fields=*all&startAt=0&maxResults=1000
+
+I am not familiar of such a usage of that API, as far as I am aware the syntax should be:
+
+jql=filter=10000&fields=id,key'
+
+where 10000 is the filter ID and fields are the fields you need to outpu (in your case it's *all)
+
+Can you please try that syntax instead?
+
+On another note, having checked the logs I can see that one of the main healtchecks in your JIRA instance has failed:
+
+{panel}
+Name: Lucene
+Is healthy: false
+Failure reason: The issue index is inconsistent with the database state. The last issue update recorded in the database was at (5/21/18 3:59 PM) but the last issue update recorded in the index was at (5/21/18 3:58 PM).
+Severity: MAJOR
+{panel}
+
+This could actually affect REST API performance.
+Can you please perform Re-indexing of JIRA as per the article below
+https://confluence.atlassian.com/adminjiraserver071/search-indexing-802593000.html
+
+Regards,
+Sergey Oslopov
+_Atlassian Support_
+
+
+
+=================
+
+
+Hi ;rep,
+
+I think you've collected the HAR file incorrectly - I can not see any calls to https://flow-jira.ubs.net in it.
+
+The purpose to capture a HAR file is to record the communication flow between the browser and JIRA as the issue is being reproduced so that we can see what exactly went wrong.
+
+So here's what you need to do to recapture another HAR file
+
+1) Open JIRA
+
+2) Start the Developer's tools in Chrome, open Network Tab and make sure the recording is started
+2.1) Check Disable Cache option to prevent caching of resources for this specific page.
+
+3) Refresh the page to start capturing the traffic between the browser to the server.
+(warning) Please capture a full page load so we can see the requests made prior to the problem we're analyzing.
+
+4) Reproduce the issue in JIRA, i.e. refresh the page or perform the activity that leads to that "Communication breakdown" error.
+
+5) In the Development tools -- verify that the activity has been recorded, i.e. you see requests and responses coming to and from JIRA
+
+6) Save the output as HAR with content and attach to the case.
+
+
+Regarding the logs -- it appears that you have not marked them as well - I am not able to see the "replication starts here" words anywhere in the logs except of the catalina snippet you've provided.
+
+To mark the logs, please do as follows:
+
+1) Navigate to JIRA Administration >> System >> Logging and profiling >> Mark Logs (<baseURL>/secure/admin/ViewLogging.jspa) - You will see "Optional Message" text box there -- that is where you need to enter "replication starts here" -- this will mark all the logs in JIRA -- i.e you don't have to do it manually
+
+2) Mark the logs with "replication starts here"
+
+3) Replicate the problem at the same time capturing the HAR file
+
+4) Mark the logs again with "replication ends here"
+
+
+Once collected, please attach both HAR file and new support zip to the case.
+
+Regards,
+Sergey Oslopov
+_Atlassian Support_
+
+================
+GHS-118153
+
+Hi ;rep,
+
+My name is Sergey Oslopov and I am a Sydney (Australia) based support engineer assigned to assist you with this issue during my working hours between 08:00AM - 05:00PM AEST (Australian Eastern Standard Time zone, GMT +10) Monday to Friday. It's a pleasure to meet you :)
+
+Thank you for the information you have provided so far and your patience while we are investigating this issue for you.
+
+In regards to the issue, I would like to review the commmunication process between browser and JIRA.
+
+Can you please perform the following:
+
+1) [mark the logs|https://confluence.atlassian.com/jirakb/marking-jira-logs-for-troubleshooting-purposes-827334452.html] with "replication starts here" - This will allow us to pinpoint the activity in the logs
+
+2) Capture a [HAR File|https://confluence.atlassian.com/kb/generating-har-files-and-analysing-web-requests-720420612.html] while reproducing the issue - please make sure the activity gets recorded in the .har file before sending the file to us
+
+3) [mark the logs|https://confluence.atlassian.com/jirakb/marking-jira-logs-for-troubleshooting-purposes-827334452.html] with "replication starts here"
+
+4) [Create a Support zip|https://confluence.atlassian.com/jira064/getting-help-720412259.html#GettingHelp-CreatingaSupportZip] and attach to the case along with the .har file for further analysis.
+
+Please address the above and we'll go from there
+
+Regards,
+Sergey Oslopov
+_Atlassian Support_
+
+
+
+Can you please [create a Support Zip file|https://confluence.atlassian.com/support/create-a-support-zip-790796819.html] and attach to the case?
+
+Will be more than happy to help if you have any further issues or questions.
+
+Regards,
+Sergey Oslopov
+Atlassian Support
+
+
+
+
+
